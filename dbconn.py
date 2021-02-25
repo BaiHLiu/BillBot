@@ -74,7 +74,7 @@ def get_recent(user_id):
     """获取最近10条消费记录"""
     cursor = conn.cursor(cursor=pymysql.cursors.DictCursor)
     params = [user_id]
-    sql = "SELECT * FROM BB_flow WHERE(user_id=%s) ORDER BY id LIMIT 10"
+    sql = "SELECT * FROM BB_flow WHERE(user_id=%s) ORDER BY bill_time DESC LIMIT 10 "
     conn.ping(reconnect=True)
     cursor.execute(sql,params)
     conn.commit()
