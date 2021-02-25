@@ -3,7 +3,7 @@ Descripttion:
 version: 
 Author: Catop
 Date: 2021-02-24 22:47:12
-LastEditTime: 2021-02-25 21:22:03
+LastEditTime: 2021-02-25 22:15:07
 '''
 import time
 import datetime
@@ -23,64 +23,64 @@ user_tips += "3.统计功能如何分类？\n答：目前机器人只有简单�
 
 
 def read(user_id,message):
-    #try:
-    if('帮助' in message):
-        return user_tips
-    if('本周' in message):
-        if('账单' in message):
-            msg = get_week_details(user_id)
-        elif('统计' in message):
-            msg = get_week_details(user_id,stt=1)
-    elif('本月' in message):
-        if('账单' in message):
-            msg = get_month_details(user_id)
-        elif('统计' in message):
-            msg = get_month_details(user_id,month=0,stt=1)
-    elif('月' in message):
-        month_str_end = 0
-        month_str_start = 0
-        for i in range(0,len(message)):
-            if(message[i] == '月'):
-                month_str_end = i #月份数字结束位置
-                break
-            i += 1
-        for i in range(0,month_str_end):
-            if(ord(message[i])>=48 and ord(message[i])<=57):
-                month_str_start = i #月份数字开始位置
-                break
-            i += 1
-        if('账单' in message):
-            msg = get_month_details(user_id,message[month_str_start:month_str_end])
-        elif('统计' in message):
-            msg = get_month_details(user_id,message[month_str_start:month_str_end],stt=1)
+    try:
+        msg = ""
+        if('帮助' in message):
+            return user_tips
+        if('本周' in message):
+            if('账单' in message):
+                msg = get_week_details(user_id)
+            elif('统计' in message):
+                msg = get_week_details(user_id,stt=1)
+        elif('本月' in message):
+            if('账单' in message):
+                msg = get_month_details(user_id)
+            elif('统计' in message):
+                msg = get_month_details(user_id,month=0,stt=1)
+        elif('月' in message):
+            month_str_end = 0
+            month_str_start = 0
+            for i in range(0,len(message)):
+                if(message[i] == '月'):
+                    month_str_end = i #月份数字结束位置
+                    break
+                i += 1
+            for i in range(0,month_str_end):
+                if(ord(message[i])>=48 and ord(message[i])<=57):
+                    month_str_start = i #月份数字开始位置
+                    break
+                i += 1
+            if('账单' in message):
+                msg = get_month_details(user_id,message[month_str_start:month_str_end])
+            elif('统计' in message):
+                msg = get_month_details(user_id,message[month_str_start:month_str_end],stt=1)
 
-    elif('指定日期' in message):
-        start_time = message.split('@')[1]
-        end_time = message.split('@')[2]
-        if('账单' in message):
-            msg = get_specific_details(user_id,start_time,end_time)
+        elif('指定日期' in message):
+            start_time = message.split('@')[1]
+            end_time = message.split('@')[2]
+            if('账单' in message):
+                msg = get_specific_details(user_id,start_time,end_time)
+            else:
+                msg = get_specific_details(user_id,start_time,end_time,stt=1)
+        elif('最近' in message):
+            msg = recent_bill(user_id)
+        elif('删除' in message):
+            pid = message.split(' ')[1]
+            msg = del_bill(user_id,pid)
         else:
-            msg = get_specific_details(user_id,start_time,end_time,stt=1)
-    elif('最近' in message):
-        msg = recent_bill(user_id)
-    elif('删除' in message):
-        pid = message.split(' ')[1]
-        msg = del_bill(user_id,pid)
-    else:
-        #新增记录
-        bill_name = message.split(' ')[0]
-        bill_amount = message.split(' ')[1]
-        msg = new_bill(user_id,bill_name,bill_amount)
-        
-    return msg
-    """    
+            #新增记录
+            bill_name = message.split(' ')[0]
+            bill_amount = message.split(' ')[1]
+            msg = new_bill(user_id,bill_name,bill_amount)
+            
+        return msg
+
     except:
         msg = "输入有误，请回复'帮助'获取帮助信息"
         return msg
     else:
         print(f"成功处理用户{user_id}")
-    
-    """
+
     
         
 """
