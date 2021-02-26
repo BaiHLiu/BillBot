@@ -3,15 +3,14 @@ Descripttion:
 version: 
 Author: Catop
 Date: 2021-02-24 22:47:12
-LastEditTime: 2021-02-26 09:08:33
+LastEditTime: 2021-02-26 19:13:29
 '''
 import time
 import datetime
 import dbconn
 from datetime import timedelta
 
-nowtime = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
-nowdate = time.strftime("%Y-%m-%d", time.localtime())
+
 
 user_tips = "欢迎使用记账机器人!功能及使用方法:\n⚡本周账单/统计\n⚡本月账单/统计\n⚡指定月份账单/统计(例如'1月统计')\n⚡指定日期范围账单/统计(例如'指定日期账单@2021-01-23@2021-03-09')\n⚡最近(将查询最近10条交易记录)\n⚡删除(需要先通过最近记录查到pid，如pid为102,则使用'删除 102'\n"
 user_tips += "⚡记账功能：回复'名称 金额'即可快捷记账。比如'奶茶 12',中间有空格\n"

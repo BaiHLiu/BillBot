@@ -3,7 +3,7 @@ Descripttion:
 version: 
 Author: Catop
 Date: 2021-02-24 22:20:14
-LastEditTime: 2021-02-26 09:09:06
+LastEditTime: 2021-02-26 18:34:33
 '''
 
 import pymysql
@@ -65,6 +65,7 @@ def get_sum(user_id):
     #print(bill_list[0]['bill_time'])
     #print(now_time)
     sum_count = (now_time - bill_list[0]['bill_time']).days
+    sum_count = int(sum_count)+1
     for i in range(0,len(bill_list)):
         sum_amount += bill_list[i]['bill_amount']
     sum_amount = ('%.2f'%sum_amount)
