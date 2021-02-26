@@ -3,7 +3,7 @@ Descripttion:
 version: 
 Author: Catop
 Date: 2021-02-24 22:47:12
-LastEditTime: 2021-02-25 22:15:07
+LastEditTime: 2021-02-26 08:51:52
 '''
 import time
 import datetime
@@ -232,7 +232,7 @@ def new_bill(user_id,bill_name,bill_amount):
     today_amount = ('%.2f'%today_amount)
     sum_amount = dbconn.get_sum(user_id)[0]
     sum_count = dbconn.get_sum(user_id)[1]
-    if(float(sum_amount) > 0):
+    if(int(sum_count) > 0):
         avg = float(sum_amount)/int(sum_count)
         avg = ('%.2f'%avg)
     else:
@@ -268,5 +268,6 @@ if __name__ == '__main__':
     #read('601179193','2月账单')
     #print(get_month_details('601179193',month=2,stt=1))
     #print(new_bill('601179193','工具1','18.01'))
-    print(recent_bill('601179193'))
+    #print(recent_bill('601179193'))
     #print(del_bill('601179193','12'))
+    print(new_bill('601179193','测试新账单2','7.12'))
