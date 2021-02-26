@@ -3,7 +3,7 @@ Descripttion:
 version: 
 Author: Catop
 Date: 2021-02-24 22:21:29
-LastEditTime: 2021-02-25 22:26:55
+LastEditTime: 2021-02-26 08:01:29
 '''
 from flask import Flask,request,jsonify
 import json
@@ -37,9 +37,9 @@ def getEvent():
             comment = str(data.get('comment'))
             flag = str(data.get('flag'))
             print(f"接收加好友请求@{user_id}:{comment[:20]}")
-            time.sleep(random.randint(5,10))
+            time.sleep(random.randint(2,5))
             goapi.add_request(flag)
-            time.sleep(random.randint(5,10))
+            time.sleep(random.randint(8,10))
             goapi.sendMsg(user_id,readMsg.user_tips)
     else:
         #防止go-cq上报错误
