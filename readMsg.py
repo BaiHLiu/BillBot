@@ -3,7 +3,7 @@ Descripttion:
 version: 
 Author: Catop
 Date: 2021-02-24 22:47:12
-LastEditTime: 2021-02-26 08:51:52
+LastEditTime: 2021-02-26 09:08:33
 '''
 import time
 import datetime
@@ -84,7 +84,7 @@ def read(user_id,message):
     
         
 """
-stt:
+stt(statistics):
 0 = 详情模式
 1 = 统计模式
 """

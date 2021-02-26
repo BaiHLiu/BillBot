@@ -3,7 +3,7 @@ Descripttion:
 version: 
 Author: Catop
 Date: 2021-02-24 22:20:14
-LastEditTime: 2021-02-25 21:30:33
+LastEditTime: 2021-02-26 09:09:06
 '''
 
 import pymysql
@@ -12,10 +12,11 @@ from datetime import datetime
 conn = pymysql.connect(host='192.168.123.180',user = "billbot",passwd = "6iBsTjMn2xJmk6FF",db = "billbot")
 
 
-current_time = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
+
 
 def add_bill(user_id,bill_name,bill_amount):
     """新增记录"""
+    current_time = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
     cursor = conn.cursor(cursor=pymysql.cursors.DictCursor)
     params = [bill_name,bill_amount,current_time,user_id]
     sql = "INSERT INTO BB_flow(bill_name,bill_amount,bill_time,user_id) VALUES (%s,%s,%s,%s)"
