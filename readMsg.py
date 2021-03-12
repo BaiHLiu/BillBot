@@ -3,7 +3,7 @@ Descripttion:
 version: 
 Author: Catop
 Date: 2021-02-24 22:47:12
-LastEditTime: 2021-02-26 19:13:29
+LastEditTime: 2021-03-13 00:22:55
 '''
 import time
 import datetime
@@ -95,6 +95,8 @@ def get_week_details(user_id,stt=0):
     end_time = str(get_current_week()[1])+" 00:00:00"
     bill_list = dbconn.get_bill(user_id,start_time,end_time)
     
+    last_week_ratio_msg = ""
+
     if(stt==0):
         msg = f"----本周账单详情----\n{get_current_week()[0]}~{get_current_week()[1]}\n"
         amount_sum = 0
@@ -114,9 +116,13 @@ def get_week_details(user_id,stt=0):
         if(float(last_amount_sum)>0):
             last_amount_sum = ('%.2f'%last_amount_sum)
             last_ratio = (('%.2f')%(float(amount_sum)/float(last_amount_sum)*100))
-            msg += f"\n上周消费共计{last_amount_sum}元，已占{last_ratio}%"
+            ratio_msg = f"\n上周消费共计{last_amount_sum}元，已占{last_ratio}%"
+            msg += ratio_msg
+
+            last_week_ratio_msg = ratio_msg
     else:
         msg = get_stt(user_id,start_time,end_time,bill_list)
+        msg += last_week_ratio_msg
 
     return msg
 
@@ -236,7 +242,7 @@ def new_bill(user_id,bill_name,bill_amount):
         avg = ('%.2f'%avg)
     else:
         avg = 0
-    msg = f"⚡ 记账成功\n{bill_name}:￥{bill_amount}\n\n这是你今天的第{today_count}笔消费，今天总计{today_amount}元\n每天平均:￥{avg}"
+    msg = f"⚡ 记账成功\n{bill_name}:￥{bill_amount}\n\n今天共计{today_count}笔消费，总计{today_amount}元\n每天平均:￥{avg}\n这是陪你的第{sum_count}个日子"
 
     return msg
 
