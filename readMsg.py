@@ -3,7 +3,7 @@ Descripttion:
 version: 
 Author: Catop
 Date: 2021-02-24 22:47:12
-LastEditTime: 2021-03-13 00:22:55
+LastEditTime: 2021-03-13 00:29:26
 '''
 import time
 import datetime
@@ -94,9 +94,16 @@ def get_week_details(user_id,stt=0):
     start_time = str(get_current_week()[0])+" 00:00:00"
     end_time = str(get_current_week()[1])+" 00:00:00"
     bill_list = dbconn.get_bill(user_id,start_time,end_time)
-    
-    last_week_ratio_msg = ""
 
+    #获取上周金额
+    last_start_time = str(get_current_week()[0] - timedelta(weeks=1))+" 00:00:00"
+    last_end_time = str(get_current_week()[1] - timedelta(weeks=1))+" 00:00:00"
+    last_bill_list = dbconn.get_bill(user_id,last_start_time,last_end_time)
+    last_amount_sum = 0
+    for i in range(0,len(last_bill_list)):
+        last_amount_sum += last_bill_list[i]['bill_amount']
+
+    
     if(stt==0):
         msg = f"----本周账单详情----\n{get_current_week()[0]}~{get_current_week()[1]}\n"
         amount_sum = 0
@@ -105,14 +112,7 @@ def get_week_details(user_id,stt=0):
             amount_sum += bill_list[i]['bill_amount']
         amount_sum = ('%.2f'%amount_sum)
         msg += f"共计{len(bill_list)}笔消费，共{amount_sum}元。"
-
-        #获取上周金额
-        last_start_time = str(get_current_week()[0] - timedelta(weeks=1))+" 00:00:00"
-        last_end_time = str(get_current_week()[1] - timedelta(weeks=1))+" 00:00:00"
-        last_bill_list = dbconn.get_bill(user_id,last_start_time,last_end_time)
-        last_amount_sum = 0
-        for i in range(0,len(last_bill_list)):
-            last_amount_sum += last_bill_list[i]['bill_amount']
+        #计算本周占上周比例
         if(float(last_amount_sum)>0):
             last_amount_sum = ('%.2f'%last_amount_sum)
             last_ratio = (('%.2f')%(float(amount_sum)/float(last_amount_sum)*100))
@@ -122,7 +122,8 @@ def get_week_details(user_id,stt=0):
             last_week_ratio_msg = ratio_msg
     else:
         msg = get_stt(user_id,start_time,end_time,bill_list)
-        msg += last_week_ratio_msg
+
+
 
     return msg
 
@@ -219,6 +220,22 @@ def get_stt(user_id,start_time,end_time,bill_list):
         stt_dict[bill_name] = ('%.2f'%stt_dict[bill_name])
         msg += f"⚡ {bill_name}:￥{stt_dict[bill_name]} ({ratio}%)\n"
     msg += f"共计{len(bill_list)}笔消费，共{amount_sum}元。"
+    
+    
+    #获取上周金额
+    last_start_time = str(get_current_week()[0] - timedelta(weeks=1))+" 00:00:00"
+    last_end_time = str(get_current_week()[1] - timedelta(weeks=1))+" 00:00:00"
+    last_bill_list = dbconn.get_bill(user_id,last_start_time,last_end_time)
+    last_amount_sum = 0
+    for i in range(0,len(last_bill_list)):
+        last_amount_sum += last_bill_list[i]['bill_amount']
+        
+    #计算本周占上周比例
+    if(float(last_amount_sum)>0):
+        last_amount_sum = ('%.2f'%last_amount_sum)
+        last_ratio = (('%.2f')%(float(amount_sum)/float(last_amount_sum)*100))
+        ratio_msg = f"\n上周消费共计{last_amount_sum}元，已占{last_ratio}%"
+        msg += ratio_msg
 
     return msg
 
